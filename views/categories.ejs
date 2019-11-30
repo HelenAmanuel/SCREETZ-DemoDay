@@ -85,6 +85,25 @@
 <div id=”map_canvas”></div>
 
 	<!-- Portfolio section  -->
+
+	<div class="col-sm-6">
+	<ul class="photos">
+	<% for(var i=0; i<photos.length; i++) {%>
+	<li class="message">
+	<figure>
+    <img src="<%= photos[i].photo %>">
+    <figcaption><%= photos[i].caption %></figcaption>
+		<span id="tags"><%= photos[i].tags %></span>
+		<span id="thumb"><%= photos[i].thumbUp %></span>
+		<span class="thumbsUp">👍🏾</span>
+		<span class="trash">🗑️</span>
+	</figure>
+	</li>
+	<% } %>
+	</ul>
+
+	</div>
+
 	<div class="portfolio-2-section">
 		<ul class="portfolio-filter pf-2 controls">
 			<li class="control" data-filter="all">All</li>

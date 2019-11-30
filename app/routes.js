@@ -6,9 +6,17 @@ module.exports = function(app, passport, multer, db) {
     app.get('/', function(req, res) {
         res.render('index.ejs');
     });
+
     app.get('/categories', function(req, res) {
-        res.render('categories.ejs');
+        db.collection('photos').find().toArray((err, result) => {
+          if (err) return console.log(err)
+          res.render('categories.ejs', {
+            photos: result
+          })
+        })
     });
+
+
     app.get('/home', function(req, res) {
       const curUser = req.user._id
         db.collection('photos').find({createdBy:curUser}).toArray((err, result) => {
