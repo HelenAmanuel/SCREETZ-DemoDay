@@ -70,7 +70,7 @@
 			<div class="element">
 				<h3 class="el-title">Upload Photo</h3>
 
-				<form action="/photos" method="POST">
+				<form enctype="multipart/form-data" action="/photos" method="POST">
 					<input id="photo" placeholder="Photo" type="file" name="photo">
 					<input id="caption" type="text" placeholder="Caption" name="caption">
 					<input id="tags" type="text" placeholder="Tags" name="tags">

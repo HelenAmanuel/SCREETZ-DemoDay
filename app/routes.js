@@ -52,17 +52,17 @@ module.exports = function(app, passport, multer, db) {
 
 // message board routes ===============================================================
 
-    app.post('/photos', (req, res) => {
-      console.log("hahahaphotos" + req)
-      curUser= req.user._id
-      userInput = req.body.tags;
-      tags= userInput.toLowerCase().split(',');
-      db.collection('photos').save({photo: req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude, thumbUp: 0, createdBy:curUser}, (err, result) => {
-        if (err) return console.log(err)
-        console.log('saved to database')
-        res.redirect('/profile')
-      })
-    })
+    // app.post('/photos', (req, res) => {
+    //   console.log("photos" + req)
+    //   curUser= req.user._id
+    //   userInput = req.body.tags;
+    //   tags= userInput.toLowerCase().split(',');
+    //   db.collection('photos').save({photo: req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude, thumbUp: 0, createdBy:curUser}, (err, result) => {
+    //     if (err) return console.log(err)
+    //     console.log('saved to database')
+    //     res.redirect('/profile')
+    //   })
+    // })
 
     app.put('/photos', (req, res) => {
       curUser= req.user._id
@@ -110,6 +110,8 @@ var upload = multer({storage: storage});
 
 app.post('/photos', upload.single('photo'), (req, res, next) => {
 
+    console.log("photos" + req)
+
     insertDocuments(db, req, 'images/uploads/' + req.file.filename, () => {
         //db.close();
         //res.json({'message': 'File uploaded successfully'});
@@ -117,8 +119,11 @@ app.post('/photos', upload.single('photo'), (req, res, next) => {
     });
 });
 var insertDocuments = function(db, req, filePath, callback) {
+  let curUser= req.user._id,
+   userInput = req.body.tags,
+  tags= userInput.toLowerCase().split(',');
     var collection = db.collection('photos');
-    collection.save({photo:req.body.photo},(err, result) => {
+    collection.save({photo:req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude, thumbUp: 0, createdBy:curUser},(err, result) => {
       if (err) return console.log(err), res.send(err)
       callback(result)
     })
