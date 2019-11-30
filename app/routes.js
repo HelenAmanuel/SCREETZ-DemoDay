@@ -1,4 +1,4 @@
-module.exports = function(app, passport, db) {
+module.exports = function(app, passport, multer, db) {
 
 // normal routes ===============================================================
 
@@ -45,17 +45,20 @@ module.exports = function(app, passport, db) {
 // message board routes ===============================================================
 
     app.post('/photos', (req, res) => {
+      console.log("hahahaphotos" + req)
       curUser= req.user._id
-      db.collection('photos').save({photo: req.body.photo, caption:req.body.caption, address:req.body.address, thumbUp: 0, createdBy:curUser}, (err, result) => {
+      userInput = req.body.tags;
+      tags= userInput.toLowerCase().split(',');
+      db.collection('photos').save({photo: req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude, thumbUp: 0, createdBy:curUser}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
-        res.redirect('/home')
+        res.redirect('/profile')
       })
     })
 
     app.put('/photos', (req, res) => {
       curUser= req.user._id
-      db.collection('photos').findOneAndUpdate({photo: req.body.photo, caption:req.body.caption, address:req.body.address}, {
+      db.collection('photos').findOneAndUpdate({photo: req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude}, {
         $inc: {
           thumbUp: 1
         }
@@ -69,7 +72,7 @@ module.exports = function(app, passport, db) {
     })
 
     app.delete('/photos', (req, res) => {
-      db.collection('photos').findOneAndDelete({photo: req.body.photo, caption:req.body.caption, address:req.body.address}, (err, result) => {
+      db.collection('photos').findOneAndDelete({photo: req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Message deleted!')
       })
@@ -85,6 +88,39 @@ module.exports = function(app, passport, db) {
         app.get('/login', function(req, res) {
             res.render('login.ejs', { message: req.flash('loginMessage') });
         });
+
+    var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'public/images/uploads')
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + Date.now() + ".png")
+    }
+});
+
+var upload = multer({storage: storage});
+
+app.post('/photos', upload.single('photo'), (req, res, next) => {
+
+    insertDocuments(db, req, 'images/uploads/' + req.file.filename, () => {
+        //db.close();
+        //res.json({'message': 'File uploaded successfully'});
+        res.redirect('/profile')
+    });
+});
+var insertDocuments = function(db, req, filePath, callback) {
+    var collection = db.collection('photos');
+    collection.save({photo:req.body.photo},(err, result) => {
+      if (err) return console.log(err), res.send(err)
+      callback(result)
+    })
+    // collection.findOne({"_id": uId}, (err, result) => {
+    //     //{'imagePath' : filePath }
+    //     //assert.equal(err, null);
+    //     callback(result);
+    // });
+}
+
 
         // process the login form
         app.post('/login', passport.authenticate('local-login', {

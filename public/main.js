@@ -3,34 +3,37 @@ var trash = document.getElementsByClassName("trash");
 
 Array.from(thumbUp).forEach(function(element) {
       element.addEventListener('click', function(){
-        const photo = this.parentNode.childNodes[1].innerText
-        const caption = this.parentNode.childNodes[3].innerText
-        const address = this.parentNode.childNodes[5].innerText
-        console.log(`ALERT ALERT THE PHOTO IS ${photo} THE CAPTION IS ${caption} THE ADDRESS ${address}`)
+        const photo = document.getElementById("photo").src
+        const caption =document.getElementById("caption").value
+        const tags = document.getElementById("tags").textContent
+        const latitude = this.parentNode.childNodes
+        console.log(photo,caption)
         fetch('photos', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
             'photo': photo,
             'caption': caption,
-            'address': address
+            'tags': tags
           })
         })
         .then(response => {
           if (response.ok) return response.json()
         })
         .then(data => {
-          console.log(data)
-          window.location.reload(true)
+          // console.log(data)
+          // window.location.reload(true)
         })
       });
 });
 
 Array.from(trash).forEach(function(element) {
       element.addEventListener('click', function(){
-        const photo = this.parentNode.childNodes[1].innerText
-        const caption = this.parentNode.childNodes[3].innerText
-        const address = this.parentNode.childNodes[5].innerText
+        const photo = this.parentNode.childNodes[1].value
+        const caption = this.parentNode.childNodes[4].innerText
+        const tags = this.parentNode.childNodes[7].innerText
+        const latitude = this.parentNode.childNodes[9].innerText
+        const longitude = this.parentNode.childNodes[11].innerText
         console.log(photo,caption,address)
         fetch('photos', {
           method: 'delete',
@@ -40,7 +43,7 @@ Array.from(trash).forEach(function(element) {
           body: JSON.stringify({
             'photo': photo,
             'caption': caption,
-            'address': address
+            'tags': tags
           })
         }).then(function (response) {
           window.location.reload()

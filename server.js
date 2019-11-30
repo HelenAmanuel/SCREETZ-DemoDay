@@ -15,6 +15,30 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
+var multer = require('multer');
+// const multerConf = {
+//   storage : multer.diskStorage({
+//     destination: function(req,file,next){
+//       next(null,'/public/img');
+//     },
+//     filename:function (req,file,next){
+//       const ext = file.mimtype.split('/')[1];
+//       next(null,file.fieldname = '-' + Date.now() + "." + ext);
+//     }
+//   }),
+//   fileFilter:function(req,file,next){
+//     if(!file){
+//       next();
+//     }
+//     const img = file.mimetype.startsWith("img/");
+//     if(img){
+//       next(null,true);
+//     }else{
+//       next({message:"file type not supported"},false);
+//     }
+//   }
+// };
+
 var configDB = require('./config/database.js');
 
 var db
@@ -23,7 +47,7 @@ var db
 mongoose.connect(configDB.url, (err, database) => {
   if (err) return console.log(err)
   db = database
-  require('./app/routes.js')(app, passport, db);
+  require('./app/routes.js')(app, passport, multer, db);
 }); // connect to our database
 
 //app.listen(port, () => {
