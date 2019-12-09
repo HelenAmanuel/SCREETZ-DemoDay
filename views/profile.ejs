@@ -14,11 +14,11 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
 
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/font-awesome.min.css"/>
-	<link rel="stylesheet" href="css/magnific-popup.css"/>
-	<link rel="stylesheet" href="css/slicknav.min.css"/>
-	<link rel="stylesheet" href="css/owl.carousel.min.css"/>
+	<link rel="stylesheet" href="bootstrap.min.css"/>
+	<link rel="stylesheet" href="font-awesome.min.css"/>
+	<link rel="stylesheet" href="magnific-popup.css"/>
+	<link rel="stylesheet" href="slicknav.min.css"/>
+	<link rel="stylesheet" href="owl.carousel.min.css"/>
 	<!-- Main Stylesheets -->
 	<link rel="stylesheet" href="style.css"/>
 
@@ -39,11 +39,11 @@
 	<header class="header-section">
 		<a href="profile" class="site-logo"><img  class= "logo" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.dribbble.com%2Fusers%2F182238%2Fscreenshots%2F2423343%2Fswirl-rainbow.jpg&f=1&nofb=1" alt="logo"></a>
 		<div class="header-controls">
-			<button class="nav-switch-btn"><i class="fa fa-bars"></i></button>
-			<button class="search-btn"><i class="fa fa-search"></i></button>
+			<button class="nav-switch-btn">📖</button>
+			<button class="search-btn">🔍</button>
 		</div>
 		<ul class="main-menu">
-			<li><a href="/home">Home</a></li>
+			<li><a href="/profile">Home</a></li>
 			<li><a href="/contact">About</a></li>
 			<!-- <li>
 				<a href="#">Portfolio</a>
@@ -53,10 +53,10 @@
 					<li><a href="portfolio-2.html">Portfolio 3</a></li>
 				</ul>
 			</li> -->
-			<li><a href="/categories">Categories</a></li>
-			<li><a href="/contact">Contact</a></li>
+			<li><a href="/categories">Feed</a></li>
+			<li><a href="/search">Search</a></li>
 			<li class="search-mobile">
-				<button class="search-btn"><i class="fa fa-search"></i></button>
+				<button class="search-btn">🔍</button>
 			</li>
 		</ul>
 	</header>
@@ -65,17 +65,17 @@
 
 	<!-- Contact section  -->
 	<section class="elements-section">
-		<div class="container">
+		<div class="profileUpload container">
 			<!-- element -->
 			<div class="element">
 				<h3 class="el-title">Upload Photo</h3>
 
 				<form enctype="multipart/form-data" action="/photos" method="POST">
-					<input id="photo" placeholder="Photo" type="file" name="photo">
-					<input id="caption" type="text" placeholder="Caption" name="caption">
-					<input id="tags" type="text" placeholder="Tags" name="tags">
-					<input id="latitude" type="text" placeholder="Latitude" name="latitude">
-					<input id="longitude" type="text" placeholder="Longitude" name="longitude">
+					<input id="photo" placeholder="Photo" type="file" name="photo" required><br>
+					<input id="caption" type="text" placeholder="Caption" name="caption" required><br>
+					<input id="tags" type="text" placeholder="Tags" name="tags" required><br>
+					<input id="latitude" type="text" placeholder="Latitude" name="latitude" required ><br>
+					<input id="longitude" type="text" placeholder="Longitude" name="longitude"required>
 					<button onclick="getLocation()" type="button" name="geolocation">Get Location</button>
 
 					<script>
@@ -112,13 +112,27 @@
 					<div class="col-xl-6">
 						<!-- Accordions -->
 						<div id="accordion" class="accordion-area">
-							<div class="panel">
+							<div class="profDrop panel">
 								<div class="panel-header" id="headingOne">
 									<button class="panel-link" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">Photos</button>
 								</div>
 								<div id="collapse1" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
 									<div class="panel-body">
-										<p>Photos will go here</p>
+										<div class="col-sm-6">
+										<ul class="photos">
+										<% for(var i=0; i<photos.length; i++) {%>
+										<li class="message">
+										<img class="profPhotos" src="<%= photos[i].photo %>"><br>
+										<span id="thumb"><%= photos[i].thumbUp %></span>
+										<span class="thumbsUp">👍🏾</span>
+										<span class="trash">🗑️</span><br>
+										<span id="caption"><strong>Caption: </strong><%= photos[i].caption %></span><br>
+										<span id="tags"><strong>Tags: </strong><%= photos[i].tags %></span>
+										</li>
+										<% } %>
+										</ul>
+
+										</div>
 									</div>
 								</div>
 							</div>
@@ -131,65 +145,14 @@
 </div>
 </div>
 
-<div class="col-sm-6">
-<ul class="photos">
-<% for(var i=0; i<photos.length; i++) {%>
-<li class="message">
-<img src="<%= photos[i].photo %>"><br>
-<span id="caption"><%= photos[i].caption %></span><br>
-<span id="tags"><%= photos[i].tags %></span>
-<span id="thumb"><%= photos[i].thumbUp %></span>
-<span class="thumbsUp">👍🏾</span>
-<span class="trash">🗑️</span>
-</li>
-<% } %>
-</ul>
-
-</div>
-			<!-- element -->
-			<div class="element">
-				<h3 class="el-title">Loaders</h3>
-				<div class="row">
-					<div class="col-lg-3 col-sm-6">
-						<div class="circle-progress" data-cptitle="Passion" data-cpid="id-1" data-cpvalue="100" data-cpcolor="#304a5f"></div>
-					</div>
-					<div class="col-lg-3 col-sm-6">
-						<div class="circle-progress" data-cptitle="Models" data-cpid="id-2" data-cpvalue="75" data-cpcolor="#304a5f"></div>
-					</div>
-					<div class="col-lg-3 col-sm-6">
-						<div class="circle-progress" data-cptitle="Studio" data-cpid="id-3" data-cpvalue="25" data-cpcolor="#304a5f"></div>
-					</div>
-					<div class="col-lg-3 col-sm-6">
-						<div class="circle-progress" data-cptitle="Nature" data-cpid="id-4" data-cpvalue="50" data-cpcolor="#304a5f"></div>
-					</div>
-				</div>
-			</div>
 			<!-- element -->
 			<div class="element">
 				<h3 class="el-title">Milestones</h3>
 				<div class="row">
 					<div class="col-lg-3 col-sm-6">
 						<div class="milestone">
-							<h2>1k</h2>
-							<p>IG Followers</p>
-						</div>
-					</div>
-					<div class="col-lg-3 col-sm-6">
-						<div class="milestone">
-							<h2>36</h2>
+							<h2><%=photos.length%></h2>
 							<p>Pictures Taken</p>
-						</div>
-					</div>
-					<div class="col-lg-3 col-sm-6">
-						<div class="milestone">
-							<h2>10</h2>
-							<p>Cities</p>
-						</div>
-					</div>
-					<div class="col-lg-3 col-sm-6">
-						<div class="milestone">
-							<h2>19</h2>
-							<p>Installation Photos</p>
 						</div>
 					</div>
 				</div>

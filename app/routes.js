@@ -1,4 +1,4 @@
-module.exports = function(app, passport, multer, db) {
+module.exports = function(app, passport, multer, db, ObjectId) {
 
 // normal routes ===============================================================
 
@@ -18,7 +18,7 @@ module.exports = function(app, passport, multer, db) {
 
 
     app.get('/home', function(req, res) {
-      const curUser = req.user._id
+      const curUser = req.user._id;
         db.collection('photos').find({createdBy:curUser}).toArray((err, result) => {
           if (err) return console.log(err)
           res.render('home.ejs', {
@@ -31,6 +31,8 @@ module.exports = function(app, passport, multer, db) {
     app.get('/contact', function(req, res) {
         res.render('contact.ejs');
     });
+    // Categories SECTION =========================
+
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
       const curUser = req.user._id
@@ -64,9 +66,17 @@ module.exports = function(app, passport, multer, db) {
     //   })
     // })
 
+    app.post('/messages', (req, res) => {
+    db.collection('messages').save({ContactName: req.body.contactName, ContactEmail: req.body.contactEmail, ContactMsg:req.body.contactMsg,createdBy:req.user._id}, (err, result) => {
+      if (err) return console.log(err)
+      console.log('saved to database')
+      res.redirect('/contact')
+    })
+  })
+
     app.put('/photos', (req, res) => {
-      curUser= req.user._id
-      db.collection('photos').findOneAndUpdate({photo: req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude}, {
+      const curUser = req.body.id
+      db.collection('photos').findOneAndUpdate({_id: ObjectId(curUser)}, {
         $inc: {
           thumbUp: 1
         }
@@ -80,11 +90,34 @@ module.exports = function(app, passport, multer, db) {
     })
 
     app.delete('/photos', (req, res) => {
-      db.collection('photos').findOneAndDelete({photo: req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude}, (err, result) => {
+      const curUser= req.body.id
+      db.collection('photos').findOneAndDelete({_id: ObjectId(curUser)}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Message deleted!')
       })
     })
+
+    app.get('/search', function(req, res) {
+  let query = req._parsedOriginalUrl.search;
+  let searchResult = [];
+  if (query === null) {
+    res.render('search.ejs', {
+      results: []
+    });
+  }else{
+    db.collection('photos').find().toArray((err, result) => {
+      if (err) return console.log(err);
+      for (let i = 0; i < result.length; i++) {
+        if (result[i]['tags'].includes(query.replace('?query=',''))) {
+          searchResult.push(result[i])
+        }
+      }
+      res.render('search.ejs', {
+        results: searchResult
+      })
+    })
+  }
+});
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
@@ -123,7 +156,8 @@ var insertDocuments = function(db, req, filePath, callback) {
    userInput = req.body.tags,
   tags= userInput.toLowerCase().split(',');
     var collection = db.collection('photos');
-    collection.save({photo:req.body.photo, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude, thumbUp: 0, createdBy:curUser},(err, result) => {
+    console.log("Photo: ", req.body.photo, filePath);
+    collection.save({photo: filePath, caption:req.body.caption, tags:tags, latitude: req.body.latitude, longitude:req.body.longitude, thumbUp: 0, createdBy:curUser},(err, result) => {
       if (err) return console.log(err), res.send(err)
       callback(result)
     })

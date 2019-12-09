@@ -48,6 +48,23 @@
 		color: white;
 		font-family: garamond;
 }
+.profileUpload{
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+.profPhotos{
+	width:250px;
+	height: 250px;
+	padding: 10px;
+	list-style: none;
+}
+.profDrop{
+	width:100%;
+}
+
+.mapInfo{
+	text-align: center;
+}
 
 html,
 body {
