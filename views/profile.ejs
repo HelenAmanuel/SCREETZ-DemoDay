@@ -29,7 +29,7 @@
 	<![endif]-->
 
 </head>
-<body>
+<body class="profBody">
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -37,10 +37,9 @@
 
 	<!-- Header section  -->
 	<header class="header-section">
-		<a href="profile" class="site-logo"><img  class= "logo" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.dribbble.com%2Fusers%2F182238%2Fscreenshots%2F2423343%2Fswirl-rainbow.jpg&f=1&nofb=1" alt="logo"></a>
+		<a href="/" class="site-logo"><img  class= "logo" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.dribbble.com%2Fusers%2F182238%2Fscreenshots%2F2423343%2Fswirl-rainbow.jpg&f=1&nofb=1" alt="logo"></a>
 		<div class="header-controls">
-			<button class="nav-switch-btn">📖</button>
-			<button class="search-btn">🔍</button>
+			<button class="nav-switch-btn">MENU</button>
 		</div>
 		<ul class="main-menu">
 			<li><a href="/profile">Home</a></li>
@@ -54,10 +53,7 @@
 				</ul>
 			</li> -->
 			<li><a href="/categories">Feed</a></li>
-			<li><a href="/search">Search</a></li>
-			<li class="search-mobile">
-				<button class="search-btn">🔍</button>
-			</li>
+			<li><a href="/search">🔍</a></li>
 		</ul>
 	</header>
 	<div class="clearfix"></div>
@@ -66,15 +62,15 @@
 	<!-- Contact section  -->
 	<section class="elements-section">
 		<div class="profileUpload container">
-			<!-- element -->
+			<!-- Upload Photo Section -->
 			<div class="element">
 				<h3 class="el-title">Upload Photo</h3>
 
 				<form enctype="multipart/form-data" action="/photos" method="POST">
-					<input id="photo" placeholder="Photo" type="file" name="photo" required><br>
-					<input id="caption" type="text" placeholder="Caption" name="caption" required><br>
+					<input id="photo" placeholder="Photo" type="file" name="photo" required>
+					<input id="caption" type="text" placeholder="Caption" name="caption" required>
 					<input id="tags" type="text" placeholder="Tags" name="tags" required><br>
-					<input id="latitude" type="text" placeholder="Latitude" name="latitude" required ><br>
+					<input id="latitude" type="text" placeholder="Latitude" name="latitude" required >
 					<input id="longitude" type="text" placeholder="Longitude" name="longitude"required>
 					<button onclick="getLocation()" type="button" name="geolocation">Get Location</button>
 
@@ -89,19 +85,15 @@
 					   alert("Geolocation is not supported by this browser.");
 					  }
 					}
-
 					function showPosition(position) {
 					  latitudeField.value = position.coords.latitude;
 						longitudeField.value = position.coords.longitude;
 						console.log("Latitude Field is" + latitudeField.value)
 					}
 					</script>
-
-
 					<br>
 					<input value="Upload" class="site-btn mr-3 mb-3" type="submit">
 				</form>
-
 				<!-- <button class="site-btn sb-line mr-3 mb-3">send message</button>
 				<button class="site-btn sb-line sb-light-bg">send message</button> -->
 			</div>
@@ -112,23 +104,24 @@
 					<div class="col-xl-6">
 						<!-- Accordions -->
 						<div id="accordion" class="accordion-area">
-							<div class="profDrop panel">
+							<div >
 								<div class="panel-header" id="headingOne">
 									<button class="panel-link" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">Photos</button>
 								</div>
 								<div id="collapse1" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-									<div class="panel-body">
+									<div >
 										<div class="col-sm-6">
 										<ul class="photos">
 										<% for(var i=0; i<photos.length; i++) {%>
-										<li class="message">
-										<img class="profPhotos" src="<%= photos[i].photo %>"><br>
+										<li>
+										<img id="profPhotos" src="<%= photos[i].photo %>"><br>
 										<span id="thumb"><%= photos[i].thumbUp %></span>
-										<span class="thumbsUp">👍🏾</span>
-										<span class="trash">🗑️</span><br>
+										<span>👍🏾</span>
+										<span class="trash" onclick="deletePhoto('<%= photos[i]._id %>')">🗑️</span><br>
+										</li>
 										<span id="caption"><strong>Caption: </strong><%= photos[i].caption %></span><br>
 										<span id="tags"><strong>Tags: </strong><%= photos[i].tags %></span>
-										</li>
+										<span id="hidden" hidden><%= photos[i]._id %></span>
 										<% } %>
 										</ul>
 
@@ -162,14 +155,6 @@
 	<footer class="footer-section">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-6 order-1 order-md-2">
-					<div class="footer-social-links">
-						<a href=""><i class="fa fa-pinterest"></i></a>
-						<a href=""><i class="fa fa-twitter"></i></a>
-						<a href=""><i class="fa fa-instagram"></i></a>
-						<!-- <a href=""><i class="fa fa-behance"></i></a> -->
-					</div>
-				</div>
 				<div class="col-md-6 order-2 order-md-1">
 					<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>

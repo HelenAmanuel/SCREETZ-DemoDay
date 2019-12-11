@@ -52,14 +52,45 @@
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
 }
-.profPhotos{
-	width:250px;
-	height: 250px;
+#profPhotos{
+	width:900px;
+	height: 650px;
 	padding: 10px;
-	list-style: none;
+	list-style:none;
+}
+#photoCat{
+	width: 950px;
+	height: 750px;
+	padding: 0 0 0 0;
+	margin:0 auto;
+	column-count: 2;
+}
+#catFeed{
+	margin: 40px 0 0 0;
+}
+
+#latitude,#longitude{
+	width: 400px;
+}
+.catH2{
+	text-align: center;
+	margin: 0 0 40px 0;
+}
+#caption,#tags{
+	width: 231px;
+}
+.col-sm-6{
+	margin-right: 0;
+	padding-right: 0;
+}
+.photos{
+	width:600px;
 }
 .profDrop{
 	width:100%;
+}
+.element{
+	padding: 100px 0 0 0;
 }
 
 .mapInfo{
@@ -115,9 +146,9 @@ p {
 	line-height: 1.8;
 }
 
-img {
+/* img {
 	max-width: 100%;
-}
+} */
 
 input:focus,
 select:focus,

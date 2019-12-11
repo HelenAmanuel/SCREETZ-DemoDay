@@ -37,7 +37,7 @@
 	    </style>
 
 	</head>
-	<body>
+	<body class="catBody">
 		<!-- Page Preloder -->
 		<div id="preloder">
 			<div class="loader"></div>
@@ -45,9 +45,9 @@
 
 		<!-- Header section  -->
 		<header class="header-section">
-			<a href="profile" class="site-logo"><img  class= "logo" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.dribbble.com%2Fusers%2F182238%2Fscreenshots%2F2423343%2Fswirl-rainbow.jpg&f=1&nofb=1" alt="logo"></a>
+			<a href="/" class="site-logo"><img  class= "logo" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.dribbble.com%2Fusers%2F182238%2Fscreenshots%2F2423343%2Fswirl-rainbow.jpg&f=1&nofb=1" alt="logo"></a>
 			<div class="header-controls">
-				<button class="nav-switch-btn">🔍</button>
+				<button class="nav-switch-btn">MENU</button>
 			</div>
 			<ul class="main-menu">
 				<li><a href="/profile">Home</a></li>
@@ -61,40 +61,33 @@
 					</ul>
 				</li> -->
 				<li><a href="/categories">Feed</a></li>
-				<li><a href="/search">Search</a></li>
-				<li class="search-mobile">
-					<button class="search-btn"><i class="fa fa-search"></i></button>
-				</li>
+				<li><a href="/search">🔍</a></li>
 			</ul>
 		</header>
 		<div class="clearfix"></div>
 		<!-- Header section end  -->
 
-
-	<!--Google Maps API -->
-	<div id=”map_canvas”></div>
-
 		<!-- Portfolio section  -->
-
+	<h2 class="catH2">📷 - Photo Feed - 📷</h2>
 		<div class="col-sm-6">
 		<ul class="photos">
 		<% for(var i=0; i<photos.length; i++) { %>
 			<% let location = {lat: Number(photos[i].latitude), lng: Number(photos[i].longitude)} %>
 
-		<li class="message">
+		<li id="catFeed" >
 		<figure>
+			<span class="cat-postName">Posted By: <%= photos[i].createdBy %></span>
 			<span href="/post/<%= photos[i]._id %>">
 				<img id="photoCat" src="<%= photos[i].photo %>">
 			</span>
-	    <figcaption id="caption1"><%= photos[i].caption %></figcaption>
-			<span id="tags"><%= photos[i].tags %></span>
+	    <figcaption id="caption1"><strong>Caption: </strong> <%= photos[i].caption%></figcaption>
+			<span id="tags"><strong>Tags: </strong> <%= photos[i].tags %></span>
 			<span id="thumb"><%= photos[i].thumbUp %></span>
 			<input hidden value="<%= JSON.stringify(location) %>" class="place"></input>
 			<span class="thumbsUp">👍🏾</span>
-			<span class="trash">🗑️</span>
 			<span hidden><%= photos[i]._id %></span>
 		</figure>
-		<button data-toggle="modal" data-target="#location" class="locations btn btn-primary" type="button" name="button">Location</button>
+		<button data-toggle="modal" data-target="#location" class="locations btn btn-primary" type="button" name="button"> Get Location</button>
 		<!-- Modal -->
 			<div class="modal fade" id="location" tabindex="-1" role="dialog" aria-labelledby="locationModal" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -132,86 +125,6 @@
 
 		</div>
 
-		<div class="portfolio-2-section">
-			<ul class="portfolio-filter pf-2 controls">
-				<li class="control" data-filter="all">All</li>
-				<li class="control" data-filter=".nature">Nature</li>
-				<li class="control" data-filter=".studio">Public Installations</li>
-				<li class="control" data-filter=".weddings">Font</li>
-				<li class="control" data-filter=".lifestyle">Graffiti</li>
-				<li class="control" data-filter=".fashion">Murals</li>
-			</ul>
-			<div class="portfolio-warp">
-				<div class="row portfolio-gallery m-0">
-					<div class="mix col-lg-4 col-sm-6 p-0 nature">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/1.jpg"></div>
-							<h6>Shadow in the water</h6>
-							<p>2019</p>
-						</div>
-					</div>
-					<div class="mix col-lg-4 col-sm-6 p-0 studio">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/2.jpg"></div>
-							<h6>Winter in the Mountains</h6>
-							<p>2019</p>
-						</div>
-					</div>
-					<div class="mix col-lg-4 col-sm-6 p-0 weddings">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/3.jpg"></div>
-							<h6>Pink Flamingo</h6>
-							<p>2019</p>
-						</div>
-					</div>
-					<div class="mix col-lg-4 col-sm-6 p-0 lifestyle">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/6.jpg"></div>
-							<h6>Shadow in the water</h6>
-							<p>2019</p>
-						</div>
-					</div>
-					<div class="mix col-lg-4 col-sm-6 p-0 fashion">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/4.jpg"></div>
-							<h6>Winter in the Mountains</h6>
-							<p>2019</p>
-						</div>
-					</div>
-					<div class="mix col-lg-4 col-sm-6 p-0 nature">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/5.jpg"></div>
-							<h6>Pink Flamingo</h6>
-							<p>2019</p>
-						</div>
-					</div>
-					<div class="mix col-lg-4 col-sm-6 p-0 studio">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/8.jpg"></div>
-							<h6>Shadow in the water</h6>
-							<p>2019</p>
-						</div>
-					</div>
-					<div class="mix col-lg-4 col-sm-6 p-0 weddings">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/10.jpg"></div>
-							<h6>Winter in the Mountains</h6>
-							<p>2019</p>
-						</div>
-					</div>
-					<div class="mix col-lg-4 col-sm-6 p-0 lifestyle">
-						<div class="portfolio-box">
-							<div class="portfolio-item set-bg" data-setbg="img/portfolio/13.jpg"></div>
-							<h6>Pink Flamingo</h6>
-							<p>2019</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="text-center">
-				<button class="site-btn">Load More</button>
-			</div>
-		</div>
 		<!-- Portfolio section end  -->
 
 		<!-- Footer section   -->

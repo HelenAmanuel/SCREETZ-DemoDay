@@ -7,7 +7,7 @@ module.exports = function(app, passport, multer, db, ObjectId) {
         res.render('index.ejs');
     });
 
-    app.get('/categories', function(req, res) {
+    app.get('/categories',function(req, res) {
         db.collection('photos').find().toArray((err, result) => {
           if (err) return console.log(err)
           res.render('categories.ejs', {
@@ -91,29 +91,33 @@ module.exports = function(app, passport, multer, db, ObjectId) {
 
     app.delete('/photos', (req, res) => {
       const curUser= req.body.id
+      console.log("cur user is:",curUser);
       db.collection('photos').findOneAndDelete({_id: ObjectId(curUser)}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Message deleted!')
       })
     })
 
+
     app.get('/search', function(req, res) {
   let query = req._parsedOriginalUrl.search;
   let searchResult = [];
   if (query === null) {
     res.render('search.ejs', {
-      results: []
+      result: []
     });
   }else{
     db.collection('photos').find().toArray((err, result) => {
+      console.log("here are our tags",result);
       if (err) return console.log(err);
       for (let i = 0; i < result.length; i++) {
+        console.log(result[i]['tags'])
         if (result[i]['tags'].includes(query.replace('?query=',''))) {
           searchResult.push(result[i])
         }
       }
       res.render('search.ejs', {
-        results: searchResult
+        result: searchResult
       })
     })
   }
